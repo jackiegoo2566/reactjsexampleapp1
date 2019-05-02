@@ -8,20 +8,19 @@ class App extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      tasks: [],
       isFormDisplayed: false,
       edittingTask: null
     }
   }
 
-  componentWillMount () { // before react mounting components
-    if (localStorage && localStorage.getItem('tasks')){
-      var tasks = JSON.parse(localStorage.getItem('tasks'));
-      this.setState({
-        tasks: tasks
-      });
-    }
-  }
+  // componentWillMount () { // before react mounting components
+  //   if (localStorage && localStorage.getItem('tasks')){
+  //     var tasks = JSON.parse(localStorage.getItem('tasks'));
+  //     this.setState({
+  //       tasks: tasks
+  //     });
+  //   }
+  // }
 
   onGenerateData = () => {
     var tasks = [
@@ -50,14 +49,6 @@ class App extends Component {
       tasks: tasks
     });
     localStorage.setItem("tasks", JSON.stringify(tasks));
-  }
-
-  genRandom = () => {
-    return Math.floor((1 + Math.random()) * 0x100000).toString(16).substring(1);
-  }
-
-  generateId = () => {
-    return this.genRandom() + this.genRandom () + '-' + this.genRandom() + this.genRandom () + '-' + this.genRandom () + '-' + this.genRandom ();
   }
 
   openForm = () => {
@@ -160,7 +151,7 @@ class App extends Component {
   }
 
   render() {
-    var { tasks, isFormDisplayed, edittingTask } = this.state;
+    var { isFormDisplayed, edittingTask } = this.state;
     var taskFormElement = isFormDisplayed 
                           ?  <TaskForm  onSubmit={this.onSubmit} 
                                         isFormDisplayed={isFormDisplayed} 
@@ -182,7 +173,7 @@ class App extends Component {
               </div>
               {/* <button className="btn btn-danger" onClick={ this.onGenerateData }>Generate Data</button> */}
               <TaskControl />
-              <TaskList tasks={ tasks }
+              <TaskList 
                         onUpdateStatus={ this.onUpdateStatus }
                         onDeleteItem={this.onDeleteItem} 
                         onEditTask={this.onEditTask}
