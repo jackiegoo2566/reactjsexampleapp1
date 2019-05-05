@@ -1,19 +1,32 @@
 import React, { Component } from 'react';
 import TaskItem from './TaskItem';
 import { connect } from 'react-redux';
+import * as repoAction from './../actions/index';
+import * as apipathcomponent from './../constants/apipathcomponent';
 
 class TaskList extends Component {
+  componentWillMount () {
+    let urlPath = apipathcomponent.TASK_APIS + 'get-all?code=2566';
+    this.props.onGetListTask(urlPath, { ...this.props });
+  }
+    
   render () {
-    var tasks = this.props.tasks;
-    var taskElements = tasks.map((task, index) => {
-        return <TaskItem  key={ task.id } 
-                          index={ index } 
-                          task={ task } 
-                          onUpdateStatus={this.props.onUpdateStatus}
-                          onDeleteItem={this.props.onDeleteItem}
-                          onEditTask={this.props.onEditTask}
-                />
-    });
+    var tasks = this.props.listTasks;
+    var taskElements = null;
+    console.log(tasks);
+    if (tasks != null) {
+        taskElements = tasks.map((task, index) => {
+            return <TaskItem  key={ index } 
+                              index={ index } 
+                              task={ task } 
+                              onUpdateStatus={this.props.onUpdateStatus}
+                              onDeleteItem={this.props.onDeleteItem}
+                              onEditTask={this.props.onEditTask}
+                    />
+        });
+    }
+
+
 
     return (
       <div className="row mt-15">
@@ -63,8 +76,15 @@ class TaskList extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        tasks: state.tasks
+        tasks: state.tasks,
+        listTasks: state.repository == null ? null : state.repository.listTasks
     }
 }
 
-export default connect(mapStateToProps, null)(TaskList);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onGetListTask: (url, props) => dispatch(repoAction.getData(url, props)) 
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TaskList);

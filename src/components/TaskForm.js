@@ -30,7 +30,6 @@ class TaskForm extends Component {
   }
 
   componentWillReceiveProps (prop) {
-    console.log(prop);
     if (prop && prop.edittingTask) {
       var edittingTask = prop.edittingTask;
       this.setState({
@@ -76,8 +75,7 @@ class TaskForm extends Component {
     this.setState({
         name: '',
         status: false
-
-    })
+    });
   }
 
   render () {
@@ -138,7 +136,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onAddTask: (task) => {
-      dispatch(action.addTask(task))
+      dispatch(action.addTask(task));
+    },
+    onClosing: () => {
+      dispatch(action.closeForm());
     }
   }
 }

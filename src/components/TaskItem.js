@@ -18,12 +18,12 @@ class TaskItem extends Component {
     return (
       <tr>
         <td>{ index + 1 }</td>
-        <td>{ task.name }</td>
+        <td>{ task.taskName }</td>
         <td className="text-center">
             {/* { this.showStatusElement() } */}
-              <span className={ task.status ? 'label label-success' : 'label label-danger'}
+              <span className={ task.isCompleted ? 'label label-success' : 'label label-danger'}
                     onClick={this.updateStatus}>
-                { task.status ? 'Quất' : 'Từ từ rồi quất' }
+                { task.isCompleted ? 'Quất' : 'Từ từ rồi quất' }
               </span>
         </td>
         <td className="text-center">

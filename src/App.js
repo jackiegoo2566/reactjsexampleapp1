@@ -3,12 +3,13 @@ import './App.css';
 import TaskForm from './components/TaskForm';
 import TaskList from './components/TaskList';
 import TaskControl from './components/TaskControl';
+import { connect } from 'react-redux';
+import * as action from './actions/index';
 
 class App extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      isFormDisplayed: false,
       edittingTask: null
     }
   }
@@ -52,31 +53,24 @@ class App extends Component {
   }
 
   openForm = () => {
-    if (this.state.isFormDisplayed && this.state.edittingTask !== null) {
-      this.setState({
-        isFormDisplayed: true,
-        edittingTask: null
-      });
-    } else {
-      this.setState({
-        isFormDisplayed: !this.state.isFormDisplayed,
-        edittingTask: null
-      });
-
-    }
-    // if (this.state.edittingTask != null) {
-    // } else {
+    // if (this.state.isFormDisplayed && this.state.edittingTask !== null) {
     //   this.setState({
     //     isFormDisplayed: true,
     //     edittingTask: null
     //   });
+    // } else {
+    //   this.setState({
+    //     isFormDisplayed: !this.state.isFormDisplayed,
+    //     edittingTask: null
+    //   });
     // }
+    this.props.onOpenForm();
   }
 
   onClosingForm = () => {
-    this.setState({
-      isFormDisplayed: false
-    });
+    // this.setState({
+    //   isFormDisplayed: false
+    // });
   }
 
   onSubmit = (id, name, status) => {
@@ -151,11 +145,11 @@ class App extends Component {
   }
 
   render() {
-    var { isFormDisplayed, edittingTask } = this.state;
+    var { edittingTask } = this.state;
+    var { isFormDisplayed } = this.props;
     var taskFormElement = isFormDisplayed 
-                          ?  <TaskForm  onSubmit={this.onSubmit} 
-                                        isFormDisplayed={isFormDisplayed} 
-                                        onClosing={this.onClosingForm }
+                          ?  <TaskForm  isFormDisplayed={this.props.isFormDisplayed}
+                                        onSubmit={this.onSubmit} 
                                         edittingTask={edittingTask} /> 
                           : '';
     return (
@@ -185,4 +179,18 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    isFormDisplayed: state.isFormDisplayed
+  }
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    onOpenForm: () => {
+      dispatch(action.openForm());
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
