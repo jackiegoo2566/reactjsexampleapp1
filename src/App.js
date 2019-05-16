@@ -64,6 +64,10 @@ class App extends Component {
     //     edittingTask: null
     //   });
     // }
+    // this.props.onOpenForm();
+  }
+
+  onOpenForm = () => {
     this.props.onOpenForm();
   }
 
@@ -163,7 +167,7 @@ class App extends Component {
             </div>          
             <div className={isFormDisplayed ? "col-xs-8 col-md-8 col-lg-8" : "col-xs-12 col-md-12 col-lg-12"}>
               <div className="padding-bottom-10">
-                <button className="btn btn-primary" onClick={this.openForm}>Add new task</button>
+                <button className="btn btn-primary" onClick={this.onOpenForm}>Add new task</button>
               </div>
               {/* <button className="btn btn-danger" onClick={ this.onGenerateData }>Generate Data</button> */}
               <TaskControl />

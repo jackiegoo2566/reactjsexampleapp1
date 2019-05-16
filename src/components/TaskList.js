@@ -3,17 +3,18 @@ import TaskItem from './TaskItem';
 import { connect } from 'react-redux';
 import * as repoAction from './../actions/index';
 import * as apipathcomponent from './../constants/apipathcomponent';
+import * as taskService from './../services/taskservices';
 
 class TaskList extends Component {
   componentWillMount () {
-    let urlPath = apipathcomponent.TASK_APIS + 'get-all?code=2566';
-    this.props.onGetListTask(urlPath, { ...this.props });
+    // let urlPath = apipathcomponent.TASK_APIS + 'get-all?code=2566';
+    // this.props.onGetListTask(urlPath, { ...this.props });
+    this.props.onGetListTask();
   }
     
   render () {
     var tasks = this.props.listTasks;
     var taskElements = null;
-    console.log(tasks);
     if (tasks != null) {
         taskElements = tasks.map((task, index) => {
             return <TaskItem  key={ index } 
@@ -75,6 +76,7 @@ class TaskList extends Component {
 }
 
 const mapStateToProps = (state) => {
+    console.log(state.repository);
     return {
         tasks: state.tasks,
         listTasks: state.repository == null ? null : state.repository.listTasks
@@ -83,7 +85,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onGetListTask: (url, props) => dispatch(repoAction.getData(url, props)) 
+        onGetListTask: () => dispatch(taskService.getAll()) 
     }
 }
 

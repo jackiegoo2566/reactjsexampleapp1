@@ -26,12 +26,12 @@ export const closeForm = () => {
     }
 }
 
-export const getDataSuccess = (data) => {
-    return {
-        type: actionType.GET_DATA_SUCCESS,
-        data
-    }
-}
+// export const getDataSuccess = (data, name) => {
+//     return {
+//         type: actionType.GET_DATA_SUCCESS,
+//         [name]: data
+//     }
+// }
 
 export const postDataSuccess = (response) => {
     return {
@@ -40,18 +40,17 @@ export const postDataSuccess = (response) => {
     }
 }
 
-export const getData = (url, props) => {
+export const getData = (url, name, props) => {
     return (dispatch) => {
         API.get(url)
         .then(response => {
-            // dispatch(getDataSuccess(response.data));
             dispatch({
                 type: actionType.GET_DATA_SUCCESS,
-                data: response.data.result
+                data: response.data.result,
+                name
             });
         })
         .catch(error => {
-            //TODO: handle the error when implemented
         })
     }
 }
@@ -63,7 +62,6 @@ export const postData = (url, obj, props) => {
             dispatch(postDataSuccess(response));
         })
         .catch(error => {
-            //TODO: handle the error when implemented
         })
     }
 }
